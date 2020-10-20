@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <title>Document</title>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#" ><h1 >API  Covid-19   <i class="fas fa-viruses"></i></h1></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item ">
+          <a class="nav-link" href="/">Home </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/continentes">Continentes</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle"action="/nobel" method="POST" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+           Paises
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown"><% for(var pais of paises) { %>
+            <a class="dropdown-item"href="/nobel/<%= pais.country %>"><%= pais.country %></a>
+            
+              <a type="text" value="<%= pais.country %>"></a>
+              <% } %>
+            
+          </div>
+        </li>
+        
+      </ul>
+      
+      <form class="form-inline my-2 my-lg-0"action="/nobel" method="POST">
+        <input class="form-control mr-sm-2" type="search" placeholder="Buscar Pais"name="pais" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0"name="pais" type="submit">Buscar</button>
+      </form>
+    </div>
+  </nav>
+
+  
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 mt-5">
+        <canvas id="myChart"style="background-color: #f5f5f5"></canvas>
+      </div>
+
+
+    </div>
+    <div class="col-md-12 mb-5" id="elemento"> <% for (var i =0; i< continentes.length; i++) { %>
+    </div><% } %>
+   <div class="container">
+    <div class="row ">
+      <% for (var continente of continentes) { %>
+        <div class="col-sm-12 col-lg-3 card text-center  m-1 "style="background-color: #f5f5f5" >
+          <div class="card-header"><b><%= continente.continent %></b></div>
+          <div class="card-body">
+            <h5 class="card-title">Cantidad de Casos: <%= continente.cases %></h5>
+            <p class="card-text">Muertos: <b><%= continente.deaths %></b></p>
+          </div>
+        </div>
+      <% } %>
+      </div></div>
+  </div>
+
+  
+
+
+
+
+  <script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ["<%= continentes[0].continent %>", "<%= continentes[1].continent %>", "<%= continentes[2].continent %>", "<%= continentes[3].continent %>", "<%= continentes[4].continent %>", "<%= continentes[5].continent %>"],
+            datasets: [{
+              label: 'Cantidad de Fallecidos',
+            data: ["<%= continentes[0].deaths %>", "<%= continentes[1].deaths %>", "<%= continentes[2].deaths %>", "<%= continentes[3].deaths %>", "<%= continentes[4].deaths %>", "<%= continentes[5].deaths %>"],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(255, 206, 86, 0.5)',
+                    'rgba(75, 192, 192, 0.5)',
+                    'rgba(153, 102, 255, 0.5)',
+                    'rgba(255, 159, 64, 0.5)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+    </script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+    integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+    crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/02551ea175.js" crossorigin="anonymous"></script>
+  <script src="/javascripts/continentes.js"></script>
+</body>
+
+</html>
